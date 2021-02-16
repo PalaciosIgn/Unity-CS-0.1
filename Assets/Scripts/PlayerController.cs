@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
@@ -25,13 +26,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     PhotonView PV;
 
-    const float maxHealt = 100f;
-    float currentHealt = maxHealt;
+    const float vidaMax = 100f;
+    float vidaActual = vidaMax;
 
     PlayerManager playerManager;
 
     void Awake()
     {
+    
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
 
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         Look();
         Move();
         Jump();
+
 
         for (int i = 0; i < items.Length; i++)
         {
@@ -100,8 +103,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         {
             Die();
         }
-    }
 
+    }
 
     void Look()
     {
@@ -183,10 +186,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     {
         if (!PV.IsMine)
             return;
+        vidaActual -= damage;
 
-        currentHealt -= damage;
-
-        if(currentHealt <= 0)
+        if(vidaActual <= 0)
         {
             Die();
         }
