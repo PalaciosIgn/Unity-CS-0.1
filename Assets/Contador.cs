@@ -10,7 +10,7 @@ public class Contador : MonoBehaviour
     [Range(-10.0f, 10.0f)]
     public float escalaDeTiempo = 1;
 
-    public TextMesh myText;
+    public Text myText;
     private float TiempoFrameConTiempoScale = 0f;
     private float tiempoMostrarEnSegundos = 0F;
     private float escalaDeTiempoPausar, escalaDeTiempoInicial;
@@ -22,7 +22,7 @@ public class Contador : MonoBehaviour
         escalaDeTiempoInicial = escalaDeTiempo;
 
 
-        myText = GetComponent<TextMesh>();
+        myText = GetComponent<Text>();
         tiempoMostrarEnSegundos = tiempoinicial;
 
         ActualizarReloj(tiempoinicial);
