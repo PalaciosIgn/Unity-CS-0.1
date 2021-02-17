@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        //txtAsesinatos.text = GameObject.Find()
         if (PV.IsMine)
         {
             CreateController();

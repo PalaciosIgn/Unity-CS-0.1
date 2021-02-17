@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     [SerializeField] Item[] items;
 
+    int asesinatos = 0;
+    public Text txtAsesinatos;
+
     int itemIndex;
     int previousItemIndex = -1;
 
@@ -33,7 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     void Awake()
     {
-    
+        txtAsesinatos = GetComponent<Text>();
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
 
@@ -198,5 +201,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     void Die()
     {
         playerManager.Die();
+        asesinatos++;
+        txtAsesinatos.text = asesinatos.ToString();
     }
 }
