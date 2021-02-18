@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     [SerializeField] Item[] items;
 
+    private AudioSource sonidoSalto;
+
     int asesinatos = 0;
     public Text txtAsesinatos;
 
@@ -36,7 +38,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     void Awake()
     {
-        txtAsesinatos = GetComponent<Text>();
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
 
@@ -44,6 +45,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     }
     void Start()
     {
+        sonidoSalto = GetComponent<AudioSource>();
+        txtAsesinatos = GetComponent<Text>();
         if (PV.IsMine)
         {
             EquipItem(0);
@@ -64,6 +67,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         Move();
         Jump();
 
+        if (vidaActual <= 0)
+        {
+            Die();
+            asesinatos++;
+            txtAsesinatos.text = asesinatos.ToString();
+        }
 
         for (int i = 0; i < items.Length; i++)
         {
@@ -106,7 +115,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         {
             Die();
         }
-
     }
 
     void Look()
@@ -129,6 +137,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
+            sonidoSalto.Play();
             rb.AddForce(transform.up * jumpForce);
         }
     }
@@ -201,7 +210,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     void Die()
     {
         playerManager.Die();
-        asesinatos++;
-        txtAsesinatos.text = asesinatos.ToString();
     }
 }
