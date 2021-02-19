@@ -33,6 +33,8 @@ namespace Photon.Pun
         private static HashSet<PhotonView> reusablePVHashset = new HashSet<PhotonView>();
 
 
+
+
         /// <summary>
         /// The photon view list.
         /// </summary>

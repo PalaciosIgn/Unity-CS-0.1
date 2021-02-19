@@ -13,18 +13,21 @@ public class PlayerManager : MonoBehaviour
 
     PlayerController jugador;
 
+    private AudioSource sonidoMuerte;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        sonidoMuerte = GetComponent<AudioSource>();
     }
 
     void Start()
     {
-        //txtAsesinatos.text = GameObject.Find()
         if (PV.IsMine)
         {
             CreateController();
         }
+    
     }
 
     void CreateController()
@@ -35,6 +38,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
+        sonidoMuerte.Play();
         PhotonNetwork.Destroy(controller);
         CreateController();
     }
