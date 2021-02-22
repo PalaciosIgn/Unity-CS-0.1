@@ -36,6 +36,11 @@ namespace Photon.Pun
         {
             EditorApplication.ExecuteMenuItem("Window/Photon Unity Networking/PUN Wizard");
         }
+
+        public static int Find(GameObject controller)
+        {
+            throw new NotImplementedException();
+        }
 #endif
 
 #if UNITY_EDITOR

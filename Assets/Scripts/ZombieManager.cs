@@ -24,9 +24,7 @@ public class ZombieManager : MonoBehaviour
         {
             CreateController();
         }
-
     }
-
     void CreateController()
     {
         Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
@@ -35,7 +33,10 @@ public class ZombieManager : MonoBehaviour
 
     public void Die()
     {
-        PhotonNetwork.Destroy(controller);
-        CreateController();
+        if (controller) 
+        {
+            PhotonNetwork.Destroy(controller); 
+            CreateController(); 
+        }
     }
 }

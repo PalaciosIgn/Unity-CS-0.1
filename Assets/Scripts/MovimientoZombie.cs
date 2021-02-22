@@ -4,28 +4,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MovimientoZombie : MonoBehaviourPunCallbacks
+public class MovimientoZombie : MonoBehaviourPunCallbacks, IDamageble
 {
     NavMeshAgent agente;
     public Transform destino;
 
-    Rigidbody rb;
-
     PhotonView PV;
+
+    const float vidaMax = 300f;
+    float vidaActual = vidaMax;
+
+    ZombieManager zombieManager;
 
     void  Start()
     {
         agente = GetComponent<NavMeshAgent>();
         destino = GameObject.Find("PlayerController(Clone)").transform;
+    }
 
-        rb = GetComponent<Rigidbody>();
+    void Awake()
+    {
         PV = GetComponent<PhotonView>();
+
+        zombieManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<ZombieManager>();
+        
     }
 
 
     void Update()
     {
         agente.SetDestination(destino.transform.position);
+
+        if (vidaActual <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+            return;
+        vidaActual -= damage;
+
+        if (vidaActual <= 0)
+        {
+            Die();
+        }
+
+    }
+
+    void Die()
+    {
+        zombieManager.Die();
     }
 
 }
