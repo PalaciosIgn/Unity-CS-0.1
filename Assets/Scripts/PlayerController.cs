@@ -16,8 +16,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     private AudioSource sonidoSalto;
 
+    public Text textAsesinatos;
+
     int asesinatos = 0;
-    public Text txtAsesinatos;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -31,22 +32,29 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     PhotonView PV;
 
-    const float vidaMax = 100f;
-    float vidaActual = vidaMax;
+    public float vidaMax;
+    public float vidaActual;
+    public Image barraVida;
 
     PlayerManager playerManager;
+
+    //car
+
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
-
+        
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+
+        textAsesinatos = GameObject.Find("TextAsesinatos").GetComponent<Text>();
     }
     void Start()
     {
         sonidoSalto = GetComponent<AudioSource>();
-        txtAsesinatos = GetComponent<Text>();
+        barraVida = GameObject.Find("BarraVida").GetComponent<Image>();
+        
         if (PV.IsMine)
         {
             EquipItem(0);
@@ -54,6 +62,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         else
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            barraVida.gameObject.SetActive(false);
             Destroy(rb);
         }
     }
@@ -63,15 +72,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         if (!PV.IsMine)
             return;
 
-        Look();
-        Move();
-        Jump();
+            Look();
+            Move();
+            Jump();
 
         if (vidaActual <= 0)
         {
             Die();
-            asesinatos++;
-            txtAsesinatos.text = asesinatos.ToString();
         }
 
         for (int i = 0; i < items.Length; i++)
@@ -115,6 +122,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         {
             Die();
         }
+
+        barraVida.fillAmount = vidaActual / vidaMax;
+        textAsesinatos.text = asesinatos.ToString();
     }
 
     void Look()
@@ -203,6 +213,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         if(vidaActual <= 0)
         {
             Die();
+            asesinatos++;
         }
 
     }

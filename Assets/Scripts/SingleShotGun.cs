@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SingleShotGun : Gun
 {
@@ -11,11 +12,17 @@ public class SingleShotGun : Gun
 
     PhotonView PV;
 
+
+    void Start()
+    {
+        sonidoRiffle = GetComponent<AudioSource>();
+
+    }
     void Awake()
     {
         PV = GetComponent<PhotonView>();
-        sonidoRiffle = GetComponent<AudioSource>();
     }
+
 
     public override void Use()
     {
@@ -30,7 +37,9 @@ public class SingleShotGun : Gun
         {
             hit.collider.gameObject.GetComponent<IDamageble>()?.TakeDamage(((GunInfo)itemInfo).damage);
             PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
+            print("shoot" + hit.collider.name);
         }
+        print("Shoot");
     }
 
     [PunRPC]

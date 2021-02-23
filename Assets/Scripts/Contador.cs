@@ -14,7 +14,6 @@ public class Contador : MonoBehaviour
     private float TiempoFrameConTiempoScale = 0f;
     private float tiempoMostrarEnSegundos = 0F;
     private float escalaDeTiempoPausar, escalaDeTiempoInicial;
-    private bool EstaPausado = false;
 
     void Start()
     {

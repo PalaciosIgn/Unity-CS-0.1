@@ -33,11 +33,14 @@ public class MovimientoZombie : MonoBehaviourPunCallbacks, IDamageble
 
     void Update()
     {
-        agente.SetDestination(destino.transform.position);
+        if (destino != null)
+        { 
+            agente.SetDestination(destino.transform.position);
 
-        if (vidaActual <= 0)
-        {
-            Die();
+            if (vidaActual <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -64,5 +67,4 @@ public class MovimientoZombie : MonoBehaviourPunCallbacks, IDamageble
     {
         zombieManager.Die();
     }
-
 }
