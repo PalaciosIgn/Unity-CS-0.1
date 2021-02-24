@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068522adf57873748b6361522cff0f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asesinatos: 0
 --- !u!82 &4042484817096651615
 AudioSource:
   m_ObjectHideFlags: 0

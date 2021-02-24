@@ -16,9 +16,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
 
     private AudioSource sonidoSalto;
 
-    public Text textAsesinatos;
-
-    int asesinatos = 0;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -36,6 +33,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     public float vidaActual;
     public Image barraVida;
 
+    public Text txtAsesinatos;
+
     PlayerManager playerManager;
 
     //car
@@ -47,13 +46,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         PV = GetComponent<PhotonView>();
         
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+        
 
-        textAsesinatos = GameObject.Find("TextAsesinatos").GetComponent<Text>();
     }
     void Start()
     {
         sonidoSalto = GetComponent<AudioSource>();
-        barraVida = GameObject.Find("BarraVida").GetComponent<Image>();
         
         if (PV.IsMine)
         {
@@ -62,8 +60,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         else
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            barraVida.gameObject.SetActive(false);
             Destroy(rb);
+            barraVida.gameObject.SetActive(false);
+            txtAsesinatos.gameObject.SetActive(false);
         }
     }
 
@@ -72,9 +71,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
         if (!PV.IsMine)
             return;
 
-            Look();
-            Move();
-            Jump();
+        Look();
+        Move();
+        Jump();
 
         if (vidaActual <= 0)
         {
@@ -89,8 +88,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
                 break;
             }
         }
-        
-        if(Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
         {
             if (itemIndex >= items.Length)
             {
@@ -101,7 +100,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
                 EquipItem(itemIndex + 1);
             }
         }
-        else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
         {
             if (itemIndex <= 0)
             {
@@ -118,13 +117,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
             items[itemIndex].Use();
         }
 
-        if(transform.position.y < -10f)
+        if (transform.position.y < -10f)
         {
             Die();
         }
 
         barraVida.fillAmount = vidaActual / vidaMax;
-        textAsesinatos.text = asesinatos.ToString();
+        txtAsesinatos.text = playerManager.asesinatos.ToString();
+        print("Dato dee instancia: " + (int)PV.InstantiationData[0] + this.transform.name);
     }
 
     void Look()
@@ -208,12 +208,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     {
         if (!PV.IsMine)
             return;
+
         vidaActual -= damage;
 
         if(vidaActual <= 0)
         {
             Die();
-            asesinatos++;
         }
 
     }
@@ -221,5 +221,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageble
     void Die()
     {
         playerManager.Die();
+        print(transform.name);
     }
 }

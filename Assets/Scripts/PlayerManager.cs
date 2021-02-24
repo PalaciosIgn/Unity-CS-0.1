@@ -15,10 +15,15 @@ public class PlayerManager : MonoBehaviour
 
     private AudioSource sonidoMuerte;
 
+    public int asesinatos = 0;
+
+
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         sonidoMuerte = GetComponent<AudioSource>();
+
     }
 
     void Start()
@@ -27,8 +32,9 @@ public class PlayerManager : MonoBehaviour
         {
             CreateController();
         }
-    
+
     }
+    
 
     void CreateController()
     {
@@ -40,6 +46,7 @@ public class PlayerManager : MonoBehaviour
     {
         sonidoMuerte.Play();
         PhotonNetwork.Destroy(controller);
+        asesinatos++;
         CreateController();
     }
 }

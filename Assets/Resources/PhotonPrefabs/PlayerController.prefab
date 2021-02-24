@@ -1484,10 +1484,10 @@ MonoBehaviour:
   items:
   - {fileID: 1873845457879882682}
   - {fileID: 6645935756929038403}
-  textAsesinatos: {fileID: 0}
   vidaMax: 100
-  vidaActual: 100
-  barraVida: {fileID: 0}
+  vidaActual: 99.34
+  barraVida: {fileID: 3359408134502694660}
+  txtAsesinatos: {fileID: 2473816111678948842}
 --- !u!54 &1035014430865629075
 Rigidbody:
   m_ObjectHideFlags: 0
